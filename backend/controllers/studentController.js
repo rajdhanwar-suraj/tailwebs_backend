@@ -5,8 +5,14 @@ const Student = require('../models/studentModel');
 // @route   GET /api/students
 // @access  Private
 const getStudents = asyncHandler(async (req, res) => {
-  const students = await Student.find({ user: req.user._id });
-  res.json(students);
+  try {
+    console.log('I am called :', req.user._id);
+    
+    const students = await Student.find({ user: req.user._id });
+    res.json(students);
+  } catch (err) {
+    res.status(401).json({ message: 'Error fetching students', error: err.message });
+  }
 });
 
 // @desc    Get student by ID
